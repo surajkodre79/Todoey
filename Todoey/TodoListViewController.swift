@@ -12,9 +12,14 @@ class TodoListViewController: UITableViewController {
     
     var itemsArray = [String]()
     
+    var defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if let list = defaults.value(forKey: "toDoList") as? [String] {
+            itemsArray = list
+        }
     }
     
     //tableview datasource
@@ -51,6 +56,7 @@ class TodoListViewController: UITableViewController {
         popup.addAction(UIAlertAction.init(title: "Add", style: .default, handler: { (action) in
             if !(textField.text?.isEmpty)! {
                self.itemsArray.append(textField.text!)
+               self.defaults.set(self.itemsArray, forKey: "toDoList")
             }
             self.tableView.reloadData()
         }))
