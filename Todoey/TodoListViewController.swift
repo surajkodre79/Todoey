@@ -10,8 +10,8 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    let itemsArray = ["one","two","three"]
-
+    var itemsArray = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -40,6 +40,23 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
+    @IBAction func addItemsToList(_ sender: Any) {
+        var textField = UITextField()
+       
+        let popup = UIAlertController.init(title: "Add Item To List", message: "Please Enter Item", preferredStyle: .alert)
+        popup.addTextField(configurationHandler: { (alertTextField) in
+            alertTextField.placeholder = "Item"
+            textField = alertTextField
+        })
+        popup.addAction(UIAlertAction.init(title: "Add", style: .default, handler: { (action) in
+            if !(textField.text?.isEmpty)! {
+               self.itemsArray.append(textField.text!)
+            }
+            self.tableView.reloadData()
+        }))
+        
+        self.present(popup, animated: true, completion: nil)
+    }
     
 }
 
